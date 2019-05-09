@@ -8,14 +8,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="author" content="Yaoyao Liu" /> 
         <meta name="keywords" content="meta learning, few shot, one shot, classification, CVPR, yaoyao liu, qianru sun, tat-seng chua, bernt schiele, nus, National University of Singapore, tju, Tianjin University, mpi, mpii, MPI for Informatics"/>
-        <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
         <link rel="manifest" href="favicon/site.webmanifest">
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
 
-        <link href="styles/bootstrap.min.css" rel="stylesheet">
-        <link href="styles/common.css" rel="stylesheet">
+        <link href="../styles/bootstrap.min.css" rel="stylesheet">
+        <link href="../styles/common.css" rel="stylesheet">
     </head>
 
     <body data-spy="scroll" data-target=".navbar">
@@ -61,82 +61,56 @@
 
         <section id="introduction" class="scrollable-section" style="padding-top: 50px;">
             <div class="container">
-      <h1 class="project-name" style="font-weight:normal" align="center">Meta-Transfer Learning</h1>
-      <h4 style="font-weight:normal" align="center"><a href="https://www.comp.nus.edu.sg/~sunqr/" target="_blank">Qianru Sun</a>, <a href="https://yaoyao-liu.com/" target="_blank">Yaoyao Liu</a>, <a href="https://www.chuatatseng.com/" target="_blank">Tat-Seng Chua</a>, <a href="https://www.mpi-inf.mpg.de/departments/computer-vision-and-multimodal-computing/people/bernt-schiele/" target="_blank">Bernt Schiele</a></h4>
-
-                <h3>Abstruct</h3>
-
-<p>Meta-learning has been proposed as a framework to address the challenging few-shot learning setting. The key idea is to leverage a large number of similar few-shot tasks in order to learn how to adapt a base-learner to a new task for which only a few labeled samples are available. As deep neural networks (DNNs) tend to overfit using a few samples only, meta-learning typically uses shallow neural networks (SNNs), thus limiting its effectiveness. In this paper we propose a novel few-shot learning method called <strong><em>meta-transfer learning (MTL)</em></strong> which learns to adapt a <strong><em>deep NN</em></strong> for <strong><em>few shot learning tasks</em></strong>. Specifically, meta refers to training multiple tasks, and transfer is achieved by learning scaling and shifting functions of DNN weights for each task. In addition, we introduce the <strong><em>hard task (HT) meta-batch</em></strong> scheme as an effective learning curriculum for MTL. We conduct experiments using (5-class, 1-shot) and (5-class, 5-shot) recognition tasks on two challenging few-shot learning benchmarks: miniImageNet and Fewshot-CIFAR100. Extensive comparisons to related works validate that our <strong><em>meta-transfer learning</em></strong> approach trained with the proposed <strong><em>HT meta-batch</em></strong> scheme achieves top performance. An ablation study also shows that both components contribute to fast convergence and high accuracy.</p>
-
-<h4 id="contributions">Contributions</h4>
-<ul>
-  <li>A novel MTL method that learns to transfer large-scale pre-trained DNN weights for solving few-shot learning tasks.</li>
-  <li>A novel HT meta-batch learning strategy that forces meta-transfer to “grow faster and stronger through hardship”.</li>
-  <li>Extensive experiments on <em>mini</em>ImageNet and Fewshot-CIFAR100, and achieving the state-of-the-art performance.</li>
-</ul>
-
-<h3 id="pipeline">Pipeline</h3>
-
-    <img src="https://raw.githubusercontent.com/y2l/meta-transfer-learning-tensorflow/master/docs/framework.png" width="750" class="figure-img img-responsive center-block">
+    <main id="content" class="main-content" role="main">
 
 
-<p>The pipeline of our proposed few-shot learning method, including three phases: (a) DNN training on large-scale data, <em>i.e.</em> using all training datapoints; (b) Meta-transfer learning (MTL) that learns the parameters of scaling and shifting (SS), based on the pre-trained feature extractor. Learning is scheduled by the proposed HT meta-batch; and (c) meta-test is done for an unseen task which consists of a base-learner Fine-Tuning stage and a final evaluation stage. Input data are along with arrows. Modules with names in bold get updated at corresponding phases. Specifically, SS parameters are learned by meta-training but fixed during meta-test. Base-learner parameters are optimized for every task.</p>
+<h2 id="download-few-shot-datasets">Download Few-shot Datasets</h2>
 
-<h3 id="meta-transfer-learning">Meta-Transfer Learning</h3>
+  <p>All these datasets are only allowed to be downloaded by researchers for non-commercial research and educational purposes.</p>
+  
+<p>You may download the datasets on Google Drive and 百度网盘. As the <em>mini</em>ImageNet and <em>tiered</em>ImageNet are sampled from the ImageNet dataset, you need agree to the terms of ImageNet:</p>
 
-    <img src="https://raw.githubusercontent.com/y2l/meta-transfer-learning-tensorflow/master/docs/ss.png" width="450" class="figure-img img-responsive center-block">
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>You (the "Researcher") have requested permission to use the ImageNet database (the "Database") at Princeton University and Stanford University. In exchange for such permission, Researcher hereby agrees to the following terms and conditions:
 
-
-<p>(a) Parameter-level fine-tuning (FT) is a conventional meta-training operation, e.g. in MAML [1]. Its update works for all neuron parameters, W and b. (b) Our neuron-level scaling and shifting (SS) operations in meta-transfer learning. They reduce the number of learning parameters and avoid overfitting problems. In addition, they keep large-scale trained parameters (in yellow) frozen, preventing “catastrophic forgetting”.</p>
-
-<h3 id="hard-task-meta-batch">Hard Task Meta Batch</h3>
-
-<p>In our meta-training pipeline, we intentionally pick up failure cases in each task and re-compose their data to be harder tasks for adverse re-training. We aim to force our meta-learner to “grow up through hardness”.</p>
-
-    <img src="https://raw.githubusercontent.com/y2l/meta-transfer-learning-tensorflow/master/docs/ht.png" width="450" class="figure-img img-responsive center-block">
-
-
-<p>The figure shows the performance gap between with and without hard task meta-batch in terms of accuracy and converging speed. (a)(b) 1-shot and 5-shot on <em>mini</em>ImageNet; 
-(c)(d)(e) 1-shot, 5-shot and 10-shot on Fewshot-CIFAR100.</p>
-
-    <img src="https://raw.githubusercontent.com/y2l/meta-transfer-learning-tensorflow/master/docs/acc_plot.png" width="900" class="figure-img img-responsive center-block">
-
-
-<h3 id="experiments">Experiments</h3>
-
-<h4 id="miniimagenet"><em>mini</em>ImageNet</h4>
-
-    <img src="https://raw.githubusercontent.com/y2l/meta-transfer-learning-tensorflow/master/docs/mini_acc.png" width="640" class="figure-img img-responsive center-block">
-
-
-<h4 id="fewshot-cifar100">Fewshot-CIFAR100</h4>
-
-    <img src="https://raw.githubusercontent.com/y2l/meta-transfer-learning-tensorflow/master/docs/fc100_acc.png" width="700" class="figure-img img-responsive center-block">
-
-
-<h3 id="citation">Citation</h3>
-
-<p>Please cite our paper if it is helpful to your work:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@inproceedings{sun2019mtl,
-  title={Meta-Transfer Learning for Few-Shot Learning},
-  author={Qianru Sun and Yaoyao Liu and Tat{-}Seng Chua and Bernt Schiele},
-  booktitle={CVPR},
-  year={2019}
-}
+1. Researcher shall use the Database only for non-commercial research and educational purposes.
+2. Princeton University and Stanford University make no representations or warranties regarding the Database, including but not limited to warranties of non-infringement or fitness for a particular purpose.
+3. Researcher accepts full responsibility for his or her use of the Database and shall defend and indemnify the ImageNet team, Princeton University, and Stanford University, including their employees, Trustees, officers and agents, against any and all claims arising from Researcher's use of the Database, including but not limited to Researcher's use of any copies of copyrighted images that he or she may create from the Database.
+4. Researcher may provide research associates and colleagues with access to the Database provided that they first agree to be bound by these terms and conditions.
+5. Princeton University and Stanford University reserve the right to terminate Researcher's access to the Database at any time.
+6. If Researcher is employed by a for-profit, commercial entity, Researcher's employer shall also be bound by these terms and conditions, and Researcher hereby represents that he or she is fully authorized to enter into this agreement on behalf of such employer.
+7. The law of the State of New Jersey shall apply to all disputes under this agreement.
 </code></pre></div></div>
 
-<h4 id="references">References</h4>
+<p>The download links are as follows:</p>
 
-<p>[1] Chelsea et al. “Model-agnostic meta-learning for fast adaptation of deep networks.” In <em>ICML 2017</em>;
-<br />
-[2] Oreshkin et al. “TADAM: Task dependent adaptive metric for improved few-shot learning.” In <em>NeurIPS 2018</em>.</p>
+<details>
+<summary><em>mini</em>ImageNet: <a href="https://drive.google.com/drive/folders/1uZL6dhO-czXHYv_MR2HlrBU13q108Czr?usp=sharing">[Google Drive]</a>  <a href="https://pan.baidu.com/s/1dHQWTXm9LXopb2KeC5xjbQ">[百度网盘]</a> (提取码: xcu4)</summary>
+train.tar 125.9MB md5sum: 62af9b3c839974dad2d474e6325795af
+ <br />
+val.tar    30.8MB md5sum: ab02f050b0bf66823e7acb0c1ac1bc6b
+ <br />
+test.tar   39.2MB md5sum: 318185fc3e3bf8bc57de887d9682c666
+</details>
 
-<h4 id="acknowledgements">Acknowledgements</h4>
+<details>
+<summary><em>tiered</em>ImageNet: <a href="https://drive.google.com/file/d/1DFdrgGIA77fqDOzdmkiGw_xhZlXgyTRZ/view?usp=sharing">[Google Drive]</a></summary>
+tiered_imagenet.tar 19.4GB md5sum: 7828a6dc2889e226ba575d2ba9624753
+</details>
 
+<details>
+<summary>Fewshot-CIFAR100: <a href="https://drive.google.com/drive/folders/1EpznNuYlEB_-u2hD0Kh5GTI_0bT4s4e5?usp=sharing">[Google Drive]</a>  <a href="https://pan.baidu.com/s/15vkVIBcNkaT-6u4OMfr_iA">[百度网盘]</a> (提取码: 5y72)</summary>
+train.tar 157.1MB md5sum: 80462b3ab41a97cd57f401bceb2a829d
+ <br />
+val.tar   107.3MB md5sum: c5c2497fc1f6c876b22d6a16eca890b9
+ <br />
+test.tar   53.6MB md5sum: 93b082e2bbb434299a1cff8f5fa6a331
+</details>
 
-<img src="https://raw.githubusercontent.com/y2l/meta-transfer-learning-tensorflow/master/docs/logo.png" width="500" class="figure-img img-responsive center-block">
+<h2 id="acknowledgements">Acknowledgements</h2>
 
+<p><a href="http://www.image-net.org/">ImageNet Dataset</a></p>
+
+<p><a href="https://www.cs.toronto.edu/~kriz/cifar.html">CIFAR-100 Dataset</a></p>
 
 
 
@@ -151,9 +125,9 @@
             </div>
         </footer>
 
-        <script type="text/javascript" src="scripts/jquery-3.2.1.min.js"></script>
-        <script type="text/javascript" src="scripts/bootstrap.min.js"></script>
-        <script type="text/javascript" src="scripts/jquery.easing.min.js"></script>
-        <script type="text/javascript" src="scripts/scrolling-nav.js"></script>
+        <script type="text/javascript" src="../scripts/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="../scripts/bootstrap.min.js"></script>
+        <script type="text/javascript" src="../scripts/jquery.easing.min.js"></script>
+        <script type="text/javascript" src="../scripts/scrolling-nav.js"></script>
     </body>
 </html>
