@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="renderer" content="webkit">
+        <title>Meta-Transfer Learning for Few-Shot Learning</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Yaoyao Liu" /> 
+        <meta name="keywords" content="meta learning, few shot, one shot, classification, CVPR, yaoyao liu, qianru sun, tat-seng chua, bernt schiele, nus, National University of Singapore, tju, Tianjin University, mpi, mpii, MPI for Informatics"/>
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+        <link rel="manifest" href="favicon/site.webmanifest">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+
+        <link href="styles/bootstrap.min.css" rel="stylesheet">
+        <link href="styles/common.css" rel="stylesheet">
+    </head>
+
+    <body data-spy="scroll" data-target=".navbar">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!--<div class="navbar-brand">
+                    <img alt="Brand" src="vidvrd/assets/nus-logo-white.png">
+                </div>-->
+                <!--<div class="navbar-brand">
+                    <img alt="Brand" src="vidvrd/assets/lms-logo.png">
+                </div>-->
+
+                <h2 class="navbar-brand hidden-xs hidden-sm" >
+                    <span class="logo">Meta-Transfer Learning</span>
+                    <span class="description">CVPR 2019</span>
+                </h2>
+
+                <h2 class="navbar-brand hidden-md hidden-lg" >
+                    <span class="logo">Meta-Transfer Learning</span>
+                </h2>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a class="page-scroll" href="https://arxiv.org/pdf/1812.02391.pdf" target="_blank">Paper</a></li>
+                    <li><a class="page-scroll" href="https://github.com/y2l/meta-transfer-learning-tensorflow" target="_blank">GitHub</a></li>
+                    <li><a class="page-scroll" href="https://yaoyaoliu.m2i.ac.cn/files/meta-transfer-learning-slides.pdf" target="_blank">Slides</a></li>
+                    <li><a class="page-scroll" href="https://yaoyaoliu.m2i.ac.cn/files/meta-transfer-learning-poster.pdf" target="_blank">Poster</a></li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+
+
+        <section id="introduction" class="scrollable-section" style="padding-top: 50px;">
+            <div class="container">
+      <h1 class="project-name" style="font-weight:normal" align="center">Meta-Transfer Learning</h1>
+      <h4 style="font-weight:normal" align="center"><a href="https://www.comp.nus.edu.sg/~sunqr/" target="_blank">Qianru Sun</a>, <a href="https://yaoyao-liu.com/" target="_blank">Yaoyao Liu</a>, <a href="https://www.chuatatseng.com/" target="_blank">Tat-Seng Chua</a>, <a href="https://www.mpi-inf.mpg.de/departments/computer-vision-and-multimodal-computing/people/bernt-schiele/" target="_blank">Bernt Schiele</a></h4>
+
+                <h3>Abstruct</h3>
+
+<p>Meta-learning has been proposed as a framework to address the challenging few-shot learning setting. The key idea is to leverage a large number of similar few-shot tasks in order to learn how to adapt a base-learner to a new task for which only a few labeled samples are available. As deep neural networks (DNNs) tend to overfit using a few samples only, meta-learning typically uses shallow neural networks (SNNs), thus limiting its effectiveness. In this paper we propose a novel few-shot learning method called <strong><em>meta-transfer learning (MTL)</em></strong> which learns to adapt a <strong><em>deep NN</em></strong> for <strong><em>few shot learning tasks</em></strong>. Specifically, meta refers to training multiple tasks, and transfer is achieved by learning scaling and shifting functions of DNN weights for each task. In addition, we introduce the <strong><em>hard task (HT) meta-batch</em></strong> scheme as an effective learning curriculum for MTL. We conduct experiments using (5-class, 1-shot) and (5-class, 5-shot) recognition tasks on two challenging few-shot learning benchmarks: miniImageNet and Fewshot-CIFAR100. Extensive comparisons to related works validate that our <strong><em>meta-transfer learning</em></strong> approach trained with the proposed <strong><em>HT meta-batch</em></strong> scheme achieves top performance. An ablation study also shows that both components contribute to fast convergence and high accuracy.</p>
+
+<h4 id="contributions">Contributions</h4>
+<ul>
+  <li>A novel MTL method that learns to transfer large-scale pre-trained DNN weights for solving few-shot learning tasks.</li>
+  <li>A novel HT meta-batch learning strategy that forces meta-transfer to “grow faster and stronger through hardship”.</li>
+  <li>Extensive experiments on <em>mini</em>ImageNet and Fewshot-CIFAR100, and achieving the state-of-the-art performance.</li>
+</ul>
+
+<h3 id="pipeline">Pipeline</h3>
+
+    <img src="https://raw.githubusercontent.com/y2l/meta-transfer-learning-tensorflow/master/docs/framework.png" width="750" class="figure-img img-responsive center-block">
+
+
+<p>The pipeline of our proposed few-shot learning method, including three phases: (a) DNN training on large-scale data, <em>i.e.</em> using all training datapoints; (b) Meta-transfer learning (MTL) that learns the parameters of scaling and shifting (SS), based on the pre-trained feature extractor. Learning is scheduled by the proposed HT meta-batch; and (c) meta-test is done for an unseen task which consists of a base-learner Fine-Tuning stage and a final evaluation stage. Input data are along with arrows. Modules with names in bold get updated at corresponding phases. Specifically, SS parameters are learned by meta-training but fixed during meta-test. Base-learner parameters are optimized for every task.</p>
+
+<h3 id="meta-transfer-learning">Meta-Transfer Learning</h3>
+
+    <img src="https://raw.githubusercontent.com/y2l/meta-transfer-learning-tensorflow/master/docs/ss.png" width="450" class="figure-img img-responsive center-block">
+
+
+<p>(a) Parameter-level fine-tuning (FT) is a conventional meta-training operation, e.g. in MAML [1]. Its update works for all neuron parameters, W and b. (b) Our neuron-level scaling and shifting (SS) operations in meta-transfer learning. They reduce the number of learning parameters and avoid overfitting problems. In addition, they keep large-scale trained parameters (in yellow) frozen, preventing “catastrophic forgetting”.</p>
+
+<h3 id="hard-task-meta-batch">Hard Task Meta Batch</h3>
+
+<p>In our meta-training pipeline, we intentionally pick up failure cases in each task and re-compose their data to be harder tasks for adverse re-training. We aim to force our meta-learner to “grow up through hardness”.</p>
+
+    <img src="https://raw.githubusercontent.com/y2l/meta-transfer-learning-tensorflow/master/docs/ht.png" width="450" class="figure-img img-responsive center-block">
+
+
+<p>The figure shows the performance gap between with and without hard task meta-batch in terms of accuracy and converging speed. (a)(b) 1-shot and 5-shot on <em>mini</em>ImageNet; 
+(c)(d)(e) 1-shot, 5-shot and 10-shot on Fewshot-CIFAR100.</p>
+
+    <img src="https://raw.githubusercontent.com/y2l/meta-transfer-learning-tensorflow/master/docs/acc_plot.png" width="900" class="figure-img img-responsive center-block">
+
+
+<h3 id="experiments">Experiments</h3>
+
+<h4 id="miniimagenet"><em>mini</em>ImageNet</h4>
+
+    <img src="https://raw.githubusercontent.com/y2l/meta-transfer-learning-tensorflow/master/docs/mini_acc.png" width="640" class="figure-img img-responsive center-block">
+
+
+<h4 id="fewshot-cifar100">Fewshot-CIFAR100</h4>
+
+    <img src="https://raw.githubusercontent.com/y2l/meta-transfer-learning-tensorflow/master/docs/fc100_acc.png" width="700" class="figure-img img-responsive center-block">
+
+
+<h3 id="citation">Citation</h3>
+
+<p>Please cite our paper if it is helpful to your work:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@inproceedings{sun2019mtl,
+  title={Meta-Transfer Learning for Few-Shot Learning},
+  author={Qianru Sun and Yaoyao Liu and Tat{-}Seng Chua and Bernt Schiele},
+  booktitle={CVPR},
+  year={2019}
+}
+</code></pre></div></div>
+
+<h4 id="references">References</h4>
+
+<p>[1] Chelsea et al. “Model-agnostic meta-learning for fast adaptation of deep networks.” In <em>ICML 2017</em>;
+<br />
+[2] Oreshkin et al. “TADAM: Task dependent adaptive metric for improved few-shot learning.” In <em>NeurIPS 2018</em>.</p>
+
+<h4 id="acknowledgements">Acknowledgements</h4>
+
+
+<img src="https://raw.githubusercontent.com/y2l/meta-transfer-learning-tensorflow/master/docs/logo.png" width="500" class="figure-img img-responsive center-block">
+
+
+
+
+            </div> 
+
+
+        <footer>
+            <div class="container">
+                <hr>
+                Copyright &copy 2019 <a href="https://yaoyao-liu.com/" target="_blank">Yaoyao Liu</a></p>
+                      <p hidden><script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?d=MrEbivOO20yFzBUKLRl6WGXGZcBWGirfmmrFaeFmoeI&cl=ffffff&w=a"></script></p>
+            </div>
+        </footer>
+
+        <script type="text/javascript" src="scripts/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="scripts/bootstrap.min.js"></script>
+        <script type="text/javascript" src="scripts/jquery.easing.min.js"></script>
+        <script type="text/javascript" src="scripts/scrolling-nav.js"></script>
+    </body>
+</html>
