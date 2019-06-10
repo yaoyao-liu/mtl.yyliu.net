@@ -79,25 +79,9 @@
 7. The law of the State of New Jersey shall apply to all disputes under this agreement.
 </code></pre></div></div>
 
-<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.9.0/jquery.min.js"></script>
-<script>
 
-$(function(){
-    var regBtn = $("#regBtn");
-    $("#regText").change(function(){
-        var that = $(this);
-        that.prop("checked",that.prop("checked"));
-        if(that.prop("checked")){
-            regBtn.prop("disabled",false)
-        }else{
-            regBtn.prop("disabled",true)
-        }
-    });
-});
-</script>
-
-<label><input name="" type="checkbox" value="" id="regText">  By clicking “Show download links”, you agree to the terms.</label>
-<button type="submit" disabled id="regBtn" onclick="location.href='https://meta-transfer-learning.yaoyao-liu.com/download/links.html'">Show download links</button>
+<input type="checkbox" id="cbx" onclick="if(this.checked) document.getElementById('btn').disabled=false;else document.getElementById('btn').disabled='disabled';"/>  By clicking “Show download links”, you agree to the terms.
+<input type="submit" value="Show download links" id="btn" onclick="location.href='https://meta-transfer-learning.yaoyao-liu.com/download/links.html'" disabled  /> 
 
 
 <h3 id="acknowledgements">Acknowledgements</h3>
