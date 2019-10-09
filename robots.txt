@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /download/
 Disallow: /js/
 Disallow: /css/
 Disallow: /fonts/
@@ -9,5 +8,5 @@ Disallow: /favicon/
 Disallow: /images/
 Disallow: /styles/
 
-Sitemap: https://meta-transfer-learning.yaoyao-liu.com/sitemap.xml
+Sitemap: https://meta-transfer-learning.yyyliu.net/sitemap.xml
 
