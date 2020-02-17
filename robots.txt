@@ -9,5 +9,5 @@ Disallow: /favicon/
 Disallow: /images/
 Disallow: /styles/
 
-Sitemap: https://meta-transfer-learning.yyyliu.net/sitemap.xml
+Sitemap: https://mtl.yyyliu.net/sitemap.xml
 
